@@ -1,0 +1,1 @@
+# Make analysis a package
