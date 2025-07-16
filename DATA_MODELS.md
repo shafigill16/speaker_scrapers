@@ -599,19 +599,63 @@ This document provides a comprehensive overview of the data models used by each 
 ## 9. TheSpeakerHandbook Scraper
 
 **Website**: thespeakerhandbook.com  
-**Data Collection**: Limited to testimonials data
+**Data Collection**: Two-module approach - directory listing via Typesense API and detailed profile scraping
 
-### Data Fields:
+### Module 1 - Speaker Directory Data:
 ```json
 {
+  "speaker_id": "string - unique identifier",
+  "display_name": "string - full display name",
+  "first_name": "string",
+  "last_name": "string",
+  "profile_url": "string - URL to speaker profile",
+  "image_url": "string - profile image URL",
+  "strapline": "string - tagline or brief description",
+  "topics": ["array of speaking topics"],
+  "home_country": "string - speaker's home country",
+  "languages": ["array of languages spoken"],
+  "gender": "string",
+  "membership": "string - membership level/type",
+  "notability": ["array of notable achievements"],
+  "engagement_types": ["array of engagement types offered"],
+  "event_type": ["array of event types"],
+  "scraped_at": "datetime",
+  "profile_scraped": "boolean - whether detailed profile has been scraped"
+}
+```
+
+### Module 2 - Detailed Profile Data:
+```json
+{
+  "speaker_id": "string - matches directory speaker_id",
+  "display_name": "string",
+  "profile_url": "string",
+  "page_title": "string - HTML page title",
+  "meta_description": "string - meta description tag content",
+  "biography": "string - detailed biography text",
+  "job_title": "string - current job title",
+  "knows_about": "string - areas of expertise",
+  "nationality": "string - nationality if different from home_country",
+  "talks": [
+    {
+      "title": "string - talk/presentation title",
+      "description": "string - talk description"
+    }
+  ],
+  "social_links": ["array of social media profile URLs"],
+  "video_urls": ["array of embedded video URLs (YouTube, Vimeo)"],
+  "image_urls": ["array of additional image URLs"],
   "testimonials": [
     {
       "content": "string - testimonial text",
-      "person": "string - author name",
-      "position": "string - author position",
-      "organization": "string - author organization"
+      "person": "string - testimonial author name",
+      "position": "string - author's position",
+      "organization": "string - author's organization"
     }
-  ]
+  ],
+  "scrape_status": "string - 'success' or 'error'",
+  "error_message": "string - error details if scrape failed",
+  "scraped_at": "datetime"
 }
 ```
 
